@@ -42,6 +42,7 @@ public class UserService {
        public String verifyAdmin(String email,String otp){
            AppUser appUser = userRepository.findByEmail(email)
                    .orElseThrow(() -> new RuntimeException("User not found with this email: " + email));
+
            if (appUser.getOTP().equals(otp) && Duration.between(appUser.getOtpGeneratedTime(),
                    LocalDateTime.now()).getSeconds() < (1*60)) {
                appUser.setActive(true);
